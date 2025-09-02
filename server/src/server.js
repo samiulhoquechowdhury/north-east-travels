@@ -14,6 +14,9 @@ app.use(express.json());
 
 // Routes
 app.use("/api/auth", require("./routes/authRoutes"));
+app.use("/api/tours", require("./routes/tourRoutes"));
+app.use("/api/cars", require("./routes/carRoutes"));
+app.use("/api/bookings", require("./routes/bookingRoutes"));
 
 // Test route
 app.get("/", (req, res) => res.send("API is running..."));
