@@ -12,6 +12,9 @@ export default function Navbar() {
       </Link>
       <div className="space-x-4">
         <Link to="/">Home</Link>
+        <Link to="/browse/tours">Tours</Link>
+        <Link to="/browse/cars">Cars</Link>
+
         {user ? (
           <>
             <Link to="/profile">My Bookings</Link>
