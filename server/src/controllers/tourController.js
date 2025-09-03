@@ -4,21 +4,41 @@ const Tour = require("../models/Tour");
 // @desc    Get all tours with search & filter
 exports.getTours = async (req, res) => {
   try {
-    const { search, minPrice, maxPrice, duration, type } = req.query;
+    const {
+      search,
+      type,
+      minPrice,
+      maxPrice,
+      sortBy,
+      page = 1,
+      limit = 6,
+    } = req.query;
 
     let query = {};
 
     if (search) query.title = { $regex: search, $options: "i" };
     if (type) query.type = type;
-    if (duration) query.duration = duration;
     if (minPrice || maxPrice) {
       query.price = {};
       if (minPrice) query.price.$gte = Number(minPrice);
       if (maxPrice) query.price.$lte = Number(maxPrice);
     }
 
-    const tours = await Tour.find(query);
-    res.json(tours);
+    const skip = (page - 1) * limit;
+
+    let tours = Tour.find(query);
+    if (sortBy === "priceLow") tours = tours.sort({ price: 1 });
+    if (sortBy === "priceHigh") tours = tours.sort({ price: -1 });
+
+    const total = await Tour.countDocuments(query);
+    const results = await tours.skip(skip).limit(Number(limit));
+
+    res.json({
+      results,
+      total,
+      page: Number(page),
+      pages: Math.ceil(total / limit),
+    });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
