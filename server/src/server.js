@@ -1,4 +1,6 @@
 const express = require("express");
+const path = require("path");
+
 const dotenv = require("dotenv");
 const cors = require("cors");
 const connectDB = require("./config/db");
@@ -22,6 +24,15 @@ app.use("/api/admin", require("./routes/adminRoutes"));
 
 // Test route
 app.get("/", (req, res) => res.send("API is running..."));
+// ✅ Serve React frontend in production
+// if (process.env.NODE_ENV === "production") {
+//   const __dirname1 = path.resolve();
+//   app.use(express.static(path.join(__dirname1, "client", "dist")));
+
+//   app.get("*", (req, res) => {
+//     res.sendFile(path.resolve(__dirname1, "client", "dist", "index.html"));
+//   });
+// }
 
 // Start server
 const PORT = process.env.PORT || 5000;

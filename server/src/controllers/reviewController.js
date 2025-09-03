@@ -1,3 +1,4 @@
+const mongoose = require("mongoose"); // <--- ADD THIS
 const Review = require("../models/Review");
 const Tour = require("../models/Tour");
 
@@ -34,7 +35,19 @@ exports.addReview = async (req, res) => {
   }
 };
 
-// @desc    Get reviews for a tour
+// ✅ Add missing function
+// @desc    Get reviews for a specific tour
+exports.getTourReviews = async (req, res) => {
+  try {
+    const { tourId } = req.params;
+    const reviews = await Review.find({ tour: tourId })
+      .populate("user", "name")
+      .sort({ createdAt: -1 });
+    res.json(reviews);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
 
 // @desc    Delete review (Admin only)
 exports.deleteReview = async (req, res) => {
@@ -61,12 +74,12 @@ exports.getLatestReviews = async (req, res) => {
   }
 };
 
-// @desc   Get average rating for a tour
+// @desc   Get average rating and total reviews for a tour
 exports.getTourRating = async (req, res) => {
   try {
     const { id } = req.params;
     const stats = await Review.aggregate([
-      { $match: { tour: mongoose.Types.ObjectId(id) } },
+      { $match: { tour: new mongoose.Types.ObjectId(id) } },
       {
         $group: {
           _id: "$tour",

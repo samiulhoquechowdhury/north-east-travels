@@ -16,32 +16,35 @@ export default function Home() {
   const [maxPrice, setMaxPrice] = useState("");
   const [type, setType] = useState("");
 
+  // Fetch data on mount
   useEffect(() => {
     fetchTours();
     fetchCars();
   }, []);
 
   const fetchTours = async () => {
-    const res = await axios.get("http://localhost:5000/api/tours", {
-      params: { search, minPrice, maxPrice, type },
-    });
-    setTours(res.data);
+    try {
+      const res = await axios.get("http://localhost:5000/api/tours", {
+        params: { search, minPrice, maxPrice, type },
+      });
+      console.log("Tours API response:", res.data);
+      setTours(res.data.data || []); // ✅ ensures array
+    } catch (err) {
+      console.error("Error fetching tours:", err.message);
+      setTours([]);
+    }
   };
 
   const fetchCars = async () => {
-    const res = await axios.get("http://localhost:5000/api/cars");
-    setCars(res.data);
+    try {
+      const res = await axios.get("http://localhost:5000/api/cars");
+      console.log("Cars API response:", res.data);
+      setCars(res.data.data || []); // ✅ ensures array
+    } catch (err) {
+      console.error("Error fetching cars:", err.message);
+      setCars([]);
+    }
   };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const tourRes = await axios.get("http://localhost:5000/api/tours");
-      const carRes = await axios.get("http://localhost:5000/api/cars");
-      setTours(tourRes.data);
-      setCars(carRes.data);
-    };
-    fetchData();
-  }, []);
 
   return (
     <div className="p-6">
@@ -110,26 +113,34 @@ export default function Home() {
       {/* Tours */}
       <h2 className="text-2xl font-bold mb-4">Featured Tours</h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        {tours.map((tour) => (
-          <div key={tour._id} className="border rounded-lg shadow p-4">
-            <LazyLoadImage
-              src={tour.images[0]}
-              alt={tour.title}
-              effect="blur"
-              className="rounded mb-2"
-            />
-            <h3 className="text-xl font-semibold">{tour.title}</h3>
-            <p>{tour.duration}</p>
-            <p className="text-blue-600 font-bold">₹{tour.price}</p>
-            <p className="text-sm">{tour.description.slice(0, 80)}...</p>
-            <Link
-              to={`/tours/${tour._id}`}
-              className="text-blue-500 mt-2 inline-block"
-            >
-              View More →
-            </Link>
-          </div>
-        ))}
+        {Array.isArray(tours) && tours.length > 0 ? (
+          tours.map((tour) => (
+            <div key={tour._id} className="border rounded-lg shadow p-4">
+              <LazyLoadImage
+                src={tour.images?.[0]}
+                alt={tour.title}
+                effect="blur"
+                className="rounded mb-2"
+              />
+              <h3 className="text-xl font-semibold">{tour.title}</h3>
+              <p>{tour.duration}</p>
+              <p className="text-blue-600 font-bold">₹{tour.price}</p>
+              <p className="text-sm">{tour.description?.slice(0, 80)}...</p>
+              {/* ⭐ Ratings */}
+              <p className="mt-2 text-yellow-600">
+                {tour.rating?.toFixed(1)} ⭐ ({tour.reviews} reviews)
+              </p>
+              <Link
+                to={`/tours/${tour._id}`}
+                className="text-blue-500 mt-2 inline-block"
+              >
+                View More →
+              </Link>
+            </div>
+          ))
+        ) : (
+          <p>No tours available</p>
+        )}
       </div>
 
       {/* Car Filters */}
@@ -166,30 +177,33 @@ export default function Home() {
       {/* Cars */}
       <h2 className="text-2xl font-bold mb-4">Available Cars</h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {cars.map((car) => (
-          <div key={car._id} className="border rounded-lg shadow p-4">
-            <img
-              src={car.images[0]}
-              alt={car.carType}
-              className="rounded mb-2"
-            />
-            <h3 className="text-xl font-semibold">{car.carType}</h3>
-            <p>
-              {car.seatCapacity} Seater - {car.engineType}
-            </p>
-            <p className="text-blue-600 font-bold">₹{car.price}</p>
-            <Link
-              to={`/cars/${car._id}`}
-              className="text-blue-500 mt-2 inline-block"
-            >
-              View More →
-            </Link>
-          </div>
-        ))}
+        {Array.isArray(cars) && cars.length > 0 ? (
+          cars.map((car) => (
+            <div key={car._id} className="border rounded-lg shadow p-4">
+              <img
+                src={car.images?.[0]}
+                alt={car.carType}
+                className="rounded mb-2"
+              />
+              <h3 className="text-xl font-semibold">{car.carType}</h3>
+              <p>
+                {car.seatCapacity} Seater - {car.engineType}
+              </p>
+              <p className="text-blue-600 font-bold">₹{car.price}</p>
+              <Link
+                to={`/cars/${car._id}`}
+                className="text-blue-500 mt-2 inline-block"
+              >
+                View More →
+              </Link>
+            </div>
+          ))
+        ) : (
+          <p>No cars available</p>
+        )}
       </div>
 
       {/* Testimonials */}
-
       <Testimonials />
     </div>
   );

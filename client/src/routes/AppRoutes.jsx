@@ -1,8 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-// import Home from "../pages/Home";
-// import TourDetails from "../pages/TourDetails";
-// import CarDetails from "../pages/CarDetails";
-// import AdminDashboard from "../pages/AdminDashboard";
+import { Suspense, lazy } from "react";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import Profile from "../pages/Profile";
@@ -14,9 +11,10 @@ import AdminCars from "../pages/AdminCars";
 import AdminBookings from "../pages/AdminBookings";
 import AdminAnalytics from "../pages/AdminAnalytics";
 import ForgotPassword from "../pages/ForgotPassword";
-import { Suspense, lazy } from "react";
 import BrowseTours from "../pages/BrowseTours";
+import ProtectedAdminRoute from "./ProtectedAdminRoute"; // ✅ add this
 
+// Lazy-loaded pages
 const Home = lazy(() => import("../pages/Home"));
 const TourDetails = lazy(() => import("../pages/TourDetails"));
 const CarDetails = lazy(() => import("../pages/CarDetails"));
@@ -32,21 +30,59 @@ function AppRoutes() {
             <Route path="/" element={<Home />} />
             <Route path="/browse/tours" element={<BrowseTours />} />
             {/* <Route path="/browse/cars" element={<BrowseCars />} /> */}
+
+            {/* Tour & Car details */}
             <Route path="/tours/:id" element={<TourDetails />} />
             <Route path="/cars/:id" element={<CarDetails />} />
+
+            {/* Auth */}
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/profile" element={<Profile />} />
-            <Route path="/admin" element={<AdminDashboard />} />
-            <Route path="/tours/:id" element={<TourDetails />} />
-            <Route path="/cars/:id" element={<CarDetails />} />
-            <Route path="/admin/login" element={<AdminLogin />} />
-            <Route path="/admin" element={<AdminDashboard />} />
-            <Route path="/admin/tours" element={<AdminTours />} />
-            <Route path="/admin/cars" element={<AdminCars />} />
-            <Route path="/admin/bookings" element={<AdminBookings />} />
-            <Route path="/admin/analytics" element={<AdminAnalytics />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
+
+            {/* Admin */}
+            <Route path="/admin/login" element={<AdminLogin />} />
+            <Route
+              path="/admin"
+              element={
+                <ProtectedAdminRoute>
+                  <AdminDashboard />
+                </ProtectedAdminRoute>
+              }
+            />
+            <Route
+              path="/admin/cars"
+              element={
+                <ProtectedAdminRoute>
+                  <AdminCars />
+                </ProtectedAdminRoute>
+              }
+            />
+            <Route
+              path="/admin/tours"
+              element={
+                <ProtectedAdminRoute>
+                  <AdminTours />
+                </ProtectedAdminRoute>
+              }
+            />
+            <Route
+              path="/admin/bookings"
+              element={
+                <ProtectedAdminRoute>
+                  <AdminBookings />
+                </ProtectedAdminRoute>
+              }
+            />
+            <Route
+              path="/admin/analytics"
+              element={
+                <ProtectedAdminRoute>
+                  <AdminAnalytics />
+                </ProtectedAdminRoute>
+              }
+            />
           </Routes>
         </Suspense>
       </div>

@@ -3,21 +3,22 @@ const {
   addReview,
   getTourReviews,
   deleteReview,
+  getLatestReviews,
+  getTourRating,
 } = require("../controllers/reviewController");
 const { protect, admin } = require("../middlewares/authMiddleware");
-const { getLatestReviews } = require("../controllers/reviewController");
 
 const router = express.Router();
 
 // Add review (user must be logged in)
 router.post("/", protect, addReview);
 
-// Get reviews for a tour
-router.get("/:tourId", getTourReviews);
-
-// Delete review (admin only)
-router.delete("/:id", protect, admin, deleteReview);
-
+// Static routes first
 router.get("/latest", getLatestReviews);
+router.get("/rating/:id", getTourRating);
+
+// Dynamic routes with clear prefixes
+router.get("/tour/:tourId", getTourReviews);
+router.delete("/review/:id", protect, admin, deleteReview);
 
 module.exports = router;

@@ -11,6 +11,8 @@ export default function TourDetails() {
   const { id } = useParams();
   const [tour, setTour] = useState(null);
   const [showBooking, setShowBooking] = useState(false);
+  const [rating, setRating] = useState({ avgRating: 0, totalReviews: 0 });
+
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -52,6 +54,11 @@ export default function TourDetails() {
       {/* Tour Info */}
       <h1 className="text-3xl font-bold mb-2">{tour.title}</h1>
       <p className="text-xl text-blue-600 font-semibold mb-4">₹{tour.price}</p>
+
+      {/* ⭐ Ratings */}
+      <p className="text-yellow-600 mb-4">
+        {rating.avgRating.toFixed(1)} ⭐ ({rating.totalReviews} reviews)
+      </p>
 
       {/* Carousel */}
       <div className="mb-6">
