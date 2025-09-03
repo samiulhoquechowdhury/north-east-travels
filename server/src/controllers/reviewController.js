@@ -57,3 +57,17 @@ exports.deleteReview = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+// @desc   Get latest reviews (for testimonials)
+exports.getLatestReviews = async (req, res) => {
+  try {
+    const reviews = await Review.find()
+      .populate("user", "name")
+      .populate("tour", "title")
+      .sort({ createdAt: -1 })
+      .limit(6);
+    res.json(reviews);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};

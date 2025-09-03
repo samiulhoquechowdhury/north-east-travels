@@ -5,6 +5,7 @@ const {
   deleteReview,
 } = require("../controllers/reviewController");
 const { protect, admin } = require("../middlewares/authMiddleware");
+const { getLatestReviews } = require("../controllers/reviewController");
 
 const router = express.Router();
 
@@ -16,5 +17,7 @@ router.get("/:tourId", getTourReviews);
 
 // Delete review (admin only)
 router.delete("/:id", protect, admin, deleteReview);
+
+router.get("/latest", getLatestReviews);
 
 module.exports = router;
