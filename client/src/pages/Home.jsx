@@ -9,6 +9,29 @@ export default function Home() {
   const [tours, setTours] = useState([]);
   const [cars, setCars] = useState([]);
 
+  // Filters
+  const [search, setSearch] = useState("");
+  const [minPrice, setMinPrice] = useState("");
+  const [maxPrice, setMaxPrice] = useState("");
+  const [type, setType] = useState("");
+
+  useEffect(() => {
+    fetchTours();
+    fetchCars();
+  }, []);
+
+  const fetchTours = async () => {
+    const res = await axios.get("http://localhost:5000/api/tours", {
+      params: { search, minPrice, maxPrice, type },
+    });
+    setTours(res.data);
+  };
+
+  const fetchCars = async () => {
+    const res = await axios.get("http://localhost:5000/api/cars");
+    setCars(res.data);
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       const tourRes = await axios.get("http://localhost:5000/api/tours");
@@ -39,6 +62,50 @@ export default function Home() {
         <p className="mt-4">Explore tours and car rentals with ease</p>
       </div>
 
+      {/* Tour Filters */}
+      <div className="bg-white shadow p-4 rounded mb-6">
+        <h2 className="text-xl font-semibold mb-2">Filter Tours</h2>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <input
+            type="text"
+            placeholder="Search by name"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="border p-2 rounded"
+          />
+          <input
+            type="number"
+            placeholder="Min Price"
+            value={minPrice}
+            onChange={(e) => setMinPrice(e.target.value)}
+            className="border p-2 rounded"
+          />
+          <input
+            type="number"
+            placeholder="Max Price"
+            value={maxPrice}
+            onChange={(e) => setMaxPrice(e.target.value)}
+            className="border p-2 rounded"
+          />
+          <select
+            value={type}
+            onChange={(e) => setType(e.target.value)}
+            className="border p-2 rounded"
+          >
+            <option value="">All Types</option>
+            <option value="Adventure">Adventure</option>
+            <option value="Honeymoon">Honeymoon</option>
+            <option value="Family">Family</option>
+          </select>
+        </div>
+        <button
+          onClick={fetchTours}
+          className="mt-3 bg-blue-600 text-white px-4 py-2 rounded"
+        >
+          Apply Filters
+        </button>
+      </div>
+
       {/* Tours */}
       <h2 className="text-2xl font-bold mb-4">Featured Tours</h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
@@ -62,6 +129,37 @@ export default function Home() {
             </Link>
           </div>
         ))}
+      </div>
+
+      {/* Car Filters */}
+      <div className="bg-white shadow p-4 rounded mb-6 mt-10">
+        <h2 className="text-xl font-semibold mb-2">Filter Cars</h2>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <input
+            type="text"
+            placeholder="Car Type"
+            className="border p-2 rounded"
+          />
+          <select className="border p-2 rounded">
+            <option value="">All Engines</option>
+            <option value="Petrol">Petrol</option>
+            <option value="Diesel">Diesel</option>
+            <option value="Electric">Electric</option>
+          </select>
+          <input
+            type="number"
+            placeholder="Seats"
+            className="border p-2 rounded"
+          />
+          <select className="border p-2 rounded">
+            <option value="">Availability</option>
+            <option value="true">Available</option>
+            <option value="false">Unavailable</option>
+          </select>
+        </div>
+        <button className="mt-3 bg-green-600 text-white px-4 py-2 rounded">
+          Apply Filters
+        </button>
       </div>
 
       {/* Cars */}
