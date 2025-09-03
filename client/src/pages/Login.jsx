@@ -47,6 +47,12 @@ export default function Login() {
         <button className="bg-blue-600 text-white w-full py-2 rounded hover:bg-blue-700">
           Login
         </button>
+        <p
+          className="text-sm text-blue-600 mt-2 cursor-pointer"
+          onClick={() => navigate("/forgot-password")}
+        >
+          Forgot Password?
+        </p>
       </form>
     </div>
   );

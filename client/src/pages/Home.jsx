@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { Helmet } from "react-helmet-async";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
 
 export default function Home() {
   const [tours, setTours] = useState([]);
@@ -18,6 +21,18 @@ export default function Home() {
 
   return (
     <div className="p-6">
+      <Helmet>
+        <title>Travel Portal | Explore Tours & Car Rentals</title>
+        <meta
+          name="description"
+          content="Book tours and car rentals easily with Travel Portal."
+        />
+        <meta
+          name="keywords"
+          content="tours, travel, cars, rentals, holiday packages"
+        />
+      </Helmet>
+
       {/* Hero Section */}
       <div className="bg-blue-500 text-white text-center p-12 rounded-lg mb-8">
         <h1 className="text-4xl font-bold">Discover Your Next Adventure</h1>
@@ -29,9 +44,10 @@ export default function Home() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         {tours.map((tour) => (
           <div key={tour._id} className="border rounded-lg shadow p-4">
-            <img
+            <LazyLoadImage
               src={tour.images[0]}
               alt={tour.title}
+              effect="blur"
               className="rounded mb-2"
             />
             <h3 className="text-xl font-semibold">{tour.title}</h3>

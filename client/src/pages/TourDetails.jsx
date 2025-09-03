@@ -43,6 +43,12 @@ export default function TourDetails() {
 
   return (
     <div className="p-6 max-w-5xl mx-auto">
+      <Helmet>
+        <title>{tour.title} | Travel Portal</title>
+        <meta name="description" content={tour.description.slice(0, 150)} />
+        <meta name="keywords" content={`tour, ${tour.title}, ${tour.type}`} />
+      </Helmet>
+
       {/* Tour Info */}
       <h1 className="text-3xl font-bold mb-2">{tour.title}</h1>
       <p className="text-xl text-blue-600 font-semibold mb-4">₹{tour.price}</p>

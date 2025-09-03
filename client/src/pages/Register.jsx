@@ -13,6 +13,18 @@ export default function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!name || !email || !phone || !password) {
+      alert("All fields are required");
+      return;
+    }
+    if (password.length < 6) {
+      alert("Password must be at least 6 characters");
+      return;
+    }
+    if (!/^\d{10}$/.test(phone)) {
+      alert("Phone number must be 10 digits");
+      return;
+    }
     try {
       const res = await axios.post("http://localhost:5000/api/auth/register", {
         name,
