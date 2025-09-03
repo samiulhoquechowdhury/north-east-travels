@@ -3,10 +3,14 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Slider from "react-slick";
 import { AuthContext } from "../context/AuthContext";
+import BookingForm from "../components/BookingForm";
+import ReviewForm from "../components/ReviewForm";
+import ReviewList from "../components/ReviewList";
 
 export default function TourDetails() {
   const { id } = useParams();
   const [tour, setTour] = useState(null);
+  const [showBooking, setShowBooking] = useState(false);
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -20,7 +24,6 @@ export default function TourDetails() {
 
   if (!tour) return <p className="text-center mt-10">Loading...</p>;
 
-  // Carousel settings
   const sliderSettings = {
     dots: true,
     infinite: true,
@@ -34,13 +37,13 @@ export default function TourDetails() {
     if (!user) {
       navigate("/login");
     } else {
-      navigate(`/tours/${id}/book`); // later we’ll add Booking Form
+      setShowBooking(true);
     }
   };
 
   return (
     <div className="p-6 max-w-5xl mx-auto">
-      {/* Title + Price */}
+      {/* Tour Info */}
       <h1 className="text-3xl font-bold mb-2">{tour.title}</h1>
       <p className="text-xl text-blue-600 font-semibold mb-4">₹{tour.price}</p>
 
@@ -59,7 +62,6 @@ export default function TourDetails() {
         </Slider>
       </div>
 
-      {/* Duration + Description */}
       <p className="text-gray-700 mb-4">
         <b>Duration:</b> {tour.duration}
       </p>
@@ -79,20 +81,25 @@ export default function TourDetails() {
       <h2 className="text-2xl font-semibold mb-2">Itinerary</h2>
       <p className="text-gray-700 mb-6 whitespace-pre-line">{tour.itinerary}</p>
 
-      {/* Terms & Conditions */}
-      <h2 className="text-2xl font-semibold mb-2">Terms & Conditions</h2>
-      <p className="text-gray-500 mb-6">
-        Booking is subject to availability. Cancellation charges may apply.
-        Please carry valid ID proof.
-      </p>
-
       {/* Book Now */}
-      <button
-        onClick={handleBookNow}
-        className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700"
-      >
-        Book Now
-      </button>
+      {!showBooking ? (
+        <button
+          onClick={handleBookNow}
+          className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700"
+        >
+          Book Now
+        </button>
+      ) : (
+        <BookingForm
+          tourId={tour._id}
+          onSuccess={() => setShowBooking(false)}
+        />
+      )}
+
+      {/* Reviews Section */}
+      <h2 className="text-2xl font-semibold mt-8 mb-2">Customer Reviews</h2>
+      <ReviewForm tourId={tour._id} onAdded={() => {}} />
+      <ReviewList tourId={tour._id} />
     </div>
   );
 }
