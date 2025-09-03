@@ -15,6 +15,7 @@ import AdminBookings from "../pages/AdminBookings";
 import AdminAnalytics from "../pages/AdminAnalytics";
 import ForgotPassword from "../pages/ForgotPassword";
 import { Suspense, lazy } from "react";
+import BrowseTours from "../pages/BrowseTours";
 
 const Home = lazy(() => import("../pages/Home"));
 const TourDetails = lazy(() => import("../pages/TourDetails"));
@@ -29,6 +30,8 @@ function AppRoutes() {
         <Suspense fallback={<p className="text-center mt-10">Loading...</p>}>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/browse/tours" element={<BrowseTours />} />
+            {/* <Route path="/browse/cars" element={<BrowseCars />} /> */}
             <Route path="/tours/:id" element={<TourDetails />} />
             <Route path="/cars/:id" element={<CarDetails />} />
             <Route path="/login" element={<Login />} />
