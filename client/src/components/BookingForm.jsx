@@ -28,7 +28,7 @@ export default function BookingForm({ tourId, carId, onSuccess }) {
         },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      alert("✅ Booking Confirmed!");
+      alert("✅ Booking Confirmed! Status: Pending. Admin will confirm soon.");
       if (onSuccess) onSuccess(res.data);
     } catch (err) {
       alert(err.response?.data?.message || "Booking failed");

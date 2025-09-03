@@ -10,6 +10,8 @@ export default function Profile() {
   useEffect(() => {
     if (user) {
       fetchBookings();
+      const interval = setInterval(fetchBookings, 5000); // auto-refresh every 5s
+      return () => clearInterval(interval);
     }
   }, [user]);
 
@@ -31,9 +33,7 @@ export default function Profile() {
       await axios.put(
         `http://localhost:5000/api/bookings/cancel/${id}`,
         {},
-        {
-          headers: { Authorization: `Bearer ${user?.token}` },
-        }
+        { headers: { Authorization: `Bearer ${user?.token}` } }
       );
       alert("Booking cancelled!");
       fetchBookings();
@@ -41,6 +41,7 @@ export default function Profile() {
       alert(err.response?.data?.message || "Cancel failed");
     }
   };
+  if (!user) return <p className="text-center mt-10">Please login first.</p>;
 
   const updateProfile = async (e) => {
     e.preventDefault();

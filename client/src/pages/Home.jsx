@@ -4,6 +4,7 @@ import axios from "axios";
 import { Helmet } from "react-helmet-async";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
+import Testimonials from "../components/Testimonials";
 
 export default function Home() {
   const [tours, setTours] = useState([]);
@@ -186,6 +187,10 @@ export default function Home() {
           </div>
         ))}
       </div>
+
+      {/* Testimonials */}
+
+      <Testimonials />
     </div>
   );
 }
