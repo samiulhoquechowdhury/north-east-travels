@@ -22,6 +22,7 @@ function AppRoutes() {
           <Route path="/register" element={<Register />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/tours/:id" element={<TourDetails />} />
         </Routes>
       </div>
       <Footer />
