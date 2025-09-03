@@ -35,17 +35,6 @@ exports.addReview = async (req, res) => {
 };
 
 // @desc    Get reviews for a tour
-exports.getTourReviews = async (req, res) => {
-  try {
-    const reviews = await Review.find({ tour: req.params.tourId }).populate(
-      "user",
-      "name"
-    );
-    res.json(reviews);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-};
 
 // @desc    Delete review (Admin only)
 exports.deleteReview = async (req, res) => {
@@ -67,6 +56,31 @@ exports.getLatestReviews = async (req, res) => {
       .sort({ createdAt: -1 })
       .limit(6);
     res.json(reviews);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+// @desc   Get average rating for a tour
+exports.getTourRating = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const stats = await Review.aggregate([
+      { $match: { tour: mongoose.Types.ObjectId(id) } },
+      {
+        $group: {
+          _id: "$tour",
+          avgRating: { $avg: "$rating" },
+          totalReviews: { $sum: 1 },
+        },
+      },
+    ]);
+
+    if (stats.length === 0) {
+      return res.json({ avgRating: 0, totalReviews: 0 });
+    }
+
+    res.json(stats[0]);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
