@@ -1,9 +1,23 @@
 const Tour = require("../models/Tour");
 
 // @desc    Get all tours
+// @desc    Get all tours with search & filter
 exports.getTours = async (req, res) => {
   try {
-    const tours = await Tour.find();
+    const { search, minPrice, maxPrice, duration, type } = req.query;
+
+    let query = {};
+
+    if (search) query.title = { $regex: search, $options: "i" };
+    if (type) query.type = type;
+    if (duration) query.duration = duration;
+    if (minPrice || maxPrice) {
+      query.price = {};
+      if (minPrice) query.price.$gte = Number(minPrice);
+      if (maxPrice) query.price.$lte = Number(maxPrice);
+    }
+
+    const tours = await Tour.find(query);
     res.json(tours);
   } catch (err) {
     res.status(500).json({ message: err.message });

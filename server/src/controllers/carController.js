@@ -1,9 +1,32 @@
 const Car = require("../models/Car");
 
 // @desc    Get all cars
+// @desc    Get all cars with search & filter
 exports.getCars = async (req, res) => {
   try {
-    const cars = await Car.find();
+    const {
+      carType,
+      engineType,
+      seatCapacity,
+      availability,
+      minPrice,
+      maxPrice,
+    } = req.query;
+
+    let query = {};
+
+    if (carType) query.carType = { $regex: carType, $options: "i" };
+    if (engineType) query.engineType = engineType;
+    if (seatCapacity) query.seatCapacity = Number(seatCapacity);
+    if (availability !== undefined)
+      query.availability = availability === "true";
+    if (minPrice || maxPrice) {
+      query.price = {};
+      if (minPrice) query.price.$gte = Number(minPrice);
+      if (maxPrice) query.price.$lte = Number(maxPrice);
+    }
+
+    const cars = await Car.find(query);
     res.json(cars);
   } catch (err) {
     res.status(500).json({ message: err.message });
