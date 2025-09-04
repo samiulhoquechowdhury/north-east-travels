@@ -49,14 +49,14 @@ export default function Home() {
   return (
     <div className="p-6">
       <Helmet>
-        <title>Travel Portal | Explore Tours & Car Rentals</title>
+        <title>Northeast Travels | Explore Tours & Car Rentals</title>
         <meta
           name="description"
-          content="Book tours and car rentals easily with Travel Portal."
+          content="Book tours and car rentals easily with Northest Travels."
         />
         <meta
           name="keywords"
-          content="tours, travel, cars, rentals, holiday packages"
+          content="tours, travel, cars, rentals, holiday packages, guwahati, meghalaya tour, cherapunjee"
         />
       </Helmet>
 
