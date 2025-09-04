@@ -24,7 +24,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="relative bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white">
+    <footer className="relative overflow-hidden bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white">
       {/* Decorative top border */}
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-500 to-transparent"></div>
 
