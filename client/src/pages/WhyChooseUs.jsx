@@ -42,6 +42,8 @@ export default function WhyChooseUs() {
         "Every journey we craft comes from our deep love for Northeast India. We're not tour operators—we're storytellers who happen to know the most beautiful stories.",
       detail:
         "Founded by local explorers who spent decades discovering hidden gems",
+      glowColor: "group-hover:shadow-[0_0_30px_rgba(251,191,36,0.5)]", // amber glow
+      iconColor: "group-hover:text-amber-500",
     },
     {
       icon: (
@@ -71,6 +73,8 @@ export default function WhyChooseUs() {
         "Our guides aren't just showing you places—they're sharing their ancestral knowledge. Experience destinations through the eyes of those who call them home.",
       detail:
         "Deep partnerships with indigenous communities across all seven sister states",
+      glowColor: "group-hover:shadow-[0_0_30px_rgba(34,197,94,0.5)]", // emerald glow
+      iconColor: "group-hover:text-emerald-500",
     },
     {
       icon: (
@@ -94,6 +98,8 @@ export default function WhyChooseUs() {
         "Tourism that gives back. Every booking contributes to local communities and conservation efforts. Travel with purpose, return with perspective.",
       detail:
         "₹500 from every booking goes directly to local conservation projects",
+      glowColor: "group-hover:shadow-[0_0_30px_rgba(59,130,246,0.5)]", // blue glow
+      iconColor: "group-hover:text-blue-500",
     },
     {
       icon: (
@@ -116,6 +122,8 @@ export default function WhyChooseUs() {
       description:
         "We don't just take you to places—we create moments that become memories. Watch sunrise with monks, learn ancient crafts, taste recipes passed down generations.",
       detail: "Average of 15 unique cultural interactions per journey",
+      glowColor: "group-hover:shadow-[0_0_30px_rgba(168,85,247,0.5)]", // purple glow
+      iconColor: "group-hover:text-purple-500",
     },
     {
       icon: (
@@ -138,6 +146,8 @@ export default function WhyChooseUs() {
       description:
         "No hidden costs, no surprise changes, no compromises on quality. What we promise is what you experience—backed by 50,000+ satisfied travelers.",
       detail: "100% transparent pricing with 24/7 support guarantee",
+      glowColor: "group-hover:shadow-[0_0_30px_rgba(236,72,153,0.5)]", // pink glow
+      iconColor: "group-hover:text-pink-500",
     },
     {
       icon: (
@@ -160,6 +170,8 @@ export default function WhyChooseUs() {
       description:
         "Maximum 12 travelers per group. Because the best conversations happen around small campfires, and the most beautiful moments are best shared intimately.",
       detail: "Personalized attention with expert local guides throughout",
+      glowColor: "group-hover:shadow-[0_0_30px_rgba(239,68,68,0.5)]", // red glow
+      iconColor: "group-hover:text-red-500",
     },
   ];
 
@@ -249,8 +261,14 @@ export default function WhyChooseUs() {
               }`}
               style={{ transitionDelay: `${index * 100}ms` }}
             >
-              <div className="text-gray-600 group-hover:text-gray-800 transition-colors duration-300 mb-6">
-                {reason.icon}
+              <div
+                className={`p-4 rounded-2xl bg-gray-50 w-fit mb-6 transition-all duration-500 ${reason.glowColor}`}
+              >
+                <div
+                  className={`text-gray-600 transition-all duration-300 ${reason.iconColor}`}
+                >
+                  {reason.icon}
+                </div>
               </div>
 
               <h3 className="text-2xl font-bold text-gray-900 mb-2 group-hover:text-gray-700 transition-colors">

@@ -50,7 +50,7 @@ export default function Home() {
   };
 
   return (
-    <div className="p-6">
+    <div className="">
       <Helmet>
         <title>Northeast Travels | Explore Tours & Car Rentals</title>
         <meta

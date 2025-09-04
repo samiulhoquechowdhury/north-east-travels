@@ -13,6 +13,7 @@ import AdminAnalytics from "../pages/AdminAnalytics";
 import ForgotPassword from "../pages/ForgotPassword";
 import BrowseTours from "../pages/BrowseTours";
 import ProtectedAdminRoute from "./ProtectedAdminRoute"; // ✅ add this
+import Topbar from "../components/Topbar";
 
 // Lazy-loaded pages
 const Home = lazy(() => import("../pages/Home"));
@@ -23,6 +24,7 @@ const AdminDashboard = lazy(() => import("../pages/AdminDashboard"));
 function AppRoutes() {
   return (
     <BrowserRouter>
+      <Topbar />
       <Navbar />
       <div className="min-h-screen">
         <Suspense fallback={<p className="text-center mt-10">Loading...</p>}>

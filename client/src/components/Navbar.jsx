@@ -12,10 +12,14 @@ import {
   X,
   Menu,
 } from "lucide-react";
+import useScrollDirection from "../hooks/useScrollDirection";
 
 export default function Navbar() {
   const { user, logout } = useContext(AuthContext);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const direction = useScrollDirection();
+  const topbarHeight = 40; // px ~ 2.5rem
+  const isTopbarVisible = direction === "up";
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen((prev) => !prev);
@@ -23,7 +27,11 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="fixed top-0 w-full bg-white/95 backdrop-blur-xl border-b border-black/5 z-50">
+      <nav
+        className="fixed w-full bg-white/95 backdrop-blur-xl border-b border-black/5 z-40 transition-[top] duration-300"
+        style={{ top: isTopbarVisible ? topbarHeight : 0 }}
+      >
+        {" "}
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Minimalist Premium Logo */}
@@ -114,7 +122,6 @@ export default function Navbar() {
             </button>
           </div>
         </div>
-
         {/* Clean Mobile Menu */}
         {isMobileMenuOpen && (
           <div className="md:hidden border-t border-gray-100 bg-white/98 backdrop-blur-xl">
