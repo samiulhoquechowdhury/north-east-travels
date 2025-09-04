@@ -5,6 +5,9 @@ import { Helmet } from "react-helmet-async";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import Testimonials from "../components/Testimonials";
+import Hero from "./Hero";
+import WhyChooseUs from "./WhyChooseUs";
+import ElegantAccordion from "./Accordion";
 
 export default function Home() {
   const [tours, setTours] = useState([]);
@@ -61,10 +64,11 @@ export default function Home() {
       </Helmet>
 
       {/* Hero Section */}
-      <div className="bg-blue-500 text-white text-center p-12 rounded-lg mb-8">
-        <h1 className="text-4xl font-bold">Discover Your Next Adventure</h1>
-        <p className="mt-4">Explore tours and car rentals with ease</p>
-      </div>
+      <Hero />
+
+      <WhyChooseUs />
+
+      <ElegantAccordion />
 
       {/* Tour Filters */}
       <div className="bg-white shadow p-4 rounded mb-6">
