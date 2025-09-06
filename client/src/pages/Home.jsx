@@ -8,6 +8,10 @@ import Testimonials from "../components/Testimonials";
 import Hero from "./Hero";
 import WhyChooseUs from "./WhyChooseUs";
 import ElegantAccordion from "./Accordion";
+import BookingForm from "../components/BookingForm";
+import Banner from "./Banner";
+import OffersPage from "./OffersPage";
+import TourDetailsPage from "./TourDetailsPage";
 
 export default function Home() {
   // const [tours, setTours] = useState([]);
@@ -64,6 +68,9 @@ export default function Home() {
       </Helmet>
 
       {/* Hero Section */}
+      <Banner />
+      <OffersPage />
+      <TourDetailsPage />
       <Hero />
 
       <WhyChooseUs />

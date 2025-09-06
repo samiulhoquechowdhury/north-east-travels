@@ -11,8 +11,7 @@ export default function Topbar() {
     <div
       className={[
         "fixed top-0 left-0 right-0 z-50", // sits above navbar
-        "bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900",
-        "border-b border-slate-700/50",
+        "bg-gradient-to-r from-green-900 via-slate-800 to-green-700",
         "text-slate-100 text-sm font-medium",
         "transition-all duration-300 ease-out",
         "shadow-lg backdrop-blur-sm",
@@ -45,11 +44,11 @@ export default function Topbar() {
               >
                 <div
                   className="flex items-center justify-center w-4 h-4 rounded-full 
-                              bg-green-500/20 border border-green-400/30 
+                              bg-green-500/20 border 
                               group-hover:bg-green-500/30 group-hover:border-green-400/50
                               transition-all duration-200"
                 >
-                  <Phone className="w-2.5 h-2.5 text-green-300" />
+                  <Phone className="w-2.5 h-2.5 text-white" />
                 </div>
                 <span className="hidden md:inline text-slate-200 group-hover:text-white transition-colors">
                   {label}: {phone}
@@ -74,11 +73,11 @@ export default function Topbar() {
               >
                 <div
                   className="flex items-center justify-center w-4 h-4 rounded-full 
-                              bg-emerald-500/20 border border-emerald-400/30 
+                              bg-emerald-500/20 border 
                               group-hover:bg-emerald-500/30 group-hover:border-emerald-400/50
                               transition-all duration-200"
                 >
-                  <MessageCircle className="w-2.5 h-2.5 text-emerald-300" />
+                  <MessageCircle className="w-2.5 h-2.5 text-white" />
                 </div>
                 <span className="hidden md:inline text-slate-200 group-hover:text-white transition-colors">
                   WhatsApp

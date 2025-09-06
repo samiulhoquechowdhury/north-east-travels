@@ -1,19 +1,12 @@
-import { useContext } from "react";
+// src/routes/ProtectedAdminRoute.jsx
+import React from "react";
 import { Navigate } from "react-router-dom";
-import { AuthContext } from "../context/AuthContext";
+import { isAdminLoggedIn } from "../utils/authAdmin";
 
 export default function ProtectedAdminRoute({ children }) {
-  const { user } = useContext(AuthContext);
-
-  if (!user) {
-    // Not logged in → redirect to login
+  if (!isAdminLoggedIn()) {
+    // not logged in -> go to admin login
     return <Navigate to="/admin/login" replace />;
   }
-
-  if (user.role !== "admin") {
-    // Logged in but not admin → block
-    return <Navigate to="/" replace />;
-  }
-
   return children;
 }
